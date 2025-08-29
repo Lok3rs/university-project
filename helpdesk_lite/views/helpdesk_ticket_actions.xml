@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Action for Tickets -->
+    <record id="action_helpdesk_tickets" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">list,kanban,form,pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk_lite.view_helpdesk_ticket_search"/>
+        <field name="context">{'search_default_my_tickets': 1}</field>
+    </record>
+
+    <!-- Pivot Action (Reporting menu default) -->
+    <record id="action_helpdesk_ticket_pivot" model="ir.actions.act_window">
+        <field name="name">Ticket Reporting</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="view_id" ref="helpdesk_lite.view_helpdesk_ticket_pivot"/>
+    </record>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Managers: full access -->
+    <record id="helpdesk_rule_manager_all" model="ir.rule">
+        <field name="name">Helpdesk Manager: all tickets</field>
+        <field name="model_id" ref="model_helpdesk_ticket"/>
+        <field name="global" eval="False"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('helpdesk_lite.group_helpdesk_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Users: only assignee or creator -->
+    <record id="helpdesk_rule_user_limited" model="ir.rule">
+        <field name="name">Helpdesk User: own or assigned</field>
+        <field name="model_id" ref="model_helpdesk_ticket"/>
+        <field name="global" eval="False"/>
+        <field name="domain_force">['|', ('assignee_id','=',user.id), ('create_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('helpdesk_lite.group_helpdesk_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Portal users: only their own tickets by partner mapping; read only in backend (no access record though) -->
+    <record id="helpdesk_rule_portal_own" model="ir.rule">
+        <field name="name">Portal: own tickets</field>
+        <field name="model_id" ref="model_helpdesk_ticket"/>
+        <field name="global" eval="False"/>
+        <field name="domain_force">[('partner_id','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('portal.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

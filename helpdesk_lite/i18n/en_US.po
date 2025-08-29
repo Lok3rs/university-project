@@ -1,0 +1,45 @@
+# Translation of Odoo Module: helpdesk_lite
+# Language: en_US
+msgid ""
+msgstr ""
+"Project-Id-Version: helpdesk_lite 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-29 00:00+0000\n"
+"PO-Revision-Date: 2025-08-29 00:00+0000\n"
+"Last-Translator: Junie <junie@example.com>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: helpdesk_lite
+#: model:ir.actions.act_window,name:helpdesk_lite.action_helpdesk_tickets
+msgid "Tickets"
+msgstr "Tickets"
+
+#. module: helpdesk_lite
+#: model:ir.ui.menu,name:helpdesk_lite.menu_helpdesk_root
+msgid "Helpdesk Lite"
+msgstr "Helpdesk Lite"
+
+#. module: helpdesk_lite
+#: model:ir.ui.menu,name:helpdesk_lite.menu_helpdesk_tickets
+msgid "Tickets"
+msgstr "Tickets"
+
+#. module: helpdesk_lite
+#: model:ir.ui.menu,name:helpdesk_lite.menu_helpdesk_reporting
+msgid "Reporting"
+msgstr "Reporting"
+
+#. module: helpdesk_lite
+#: model:ir.model.fields,field_description:helpdesk_lite.field_helpdesk_ticket__name
+msgid "Title"
+msgstr "Title"
+
+#. module: helpdesk_lite
+#: model:mail.template,name:helpdesk_lite.mail_template_ticket_stage_update
+msgid "Ticket status updated"
+msgstr "Ticket status updated"

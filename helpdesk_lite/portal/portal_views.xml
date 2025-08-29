@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_helpdesk" name="My Tickets">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs" t-value="[('My Account', '/my'), ('Helpdesk', '/my/helpdesk')]"/>
+            <div class="o_portal_my_doc">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2>My Helpdesk Tickets</h2>
+                    <a class="btn btn-primary" href="/my/helpdesk/create">Create Ticket</a>
+                </div>
+
+                <form method="get" class="mb-3">
+                    <div class="row g-2">
+                        <div class="col-auto">
+                            <label class="form-label">Stage</label>
+                            <select name="stage" class="form-select">
+                                <option value="" t-att-selected="not selected_stage">All</option>
+                                <option value="new" t-att-selected="selected_stage=='new'">New</option>
+                                <option value="in_progress" t-att-selected="selected_stage=='in_progress'">In Progress</option>
+                                <option value="waiting" t-att-selected="selected_stage=='waiting'">Waiting</option>
+                                <option value="done" t-att-selected="selected_stage=='done'">Done</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <label class="form-label">Priority</label>
+                            <select name="priority" class="form-select">
+                                <option value="" t-att-selected="not selected_priority">All</option>
+                                <option value="0" t-att-selected="selected_priority=='0'">Low</option>
+                                <option value="1" t-att-selected="selected_priority=='1'">Normal</option>
+                                <option value="2" t-att-selected="selected_priority=='2'">High</option>
+                            </select>
+                        </div>
+                        <div class="col-auto align-self-end">
+                            <button type="submit" class="btn btn-secondary">Apply</button>
+                        </div>
+                    </div>
+                </form>
+
+                <t t-if="not tickets">
+                    <p class="text-muted">No tickets found.</p>
+                </t>
+                <t t-else="">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Stage</th>
+                                <th>Priority</th>
+                                <th>Created</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="tickets" t-as="tkt">
+                                <tr>
+                                    <td><a t-att-href="'/my/helpdesk/%s' % tkt.id" t-esc="tkt.name"/></td>
+                                    <td t-esc="tkt.stage"/>
+                                    <td t-esc="tkt.priority"/>
+                                    <td t-esc="tkt.create_date"/>
+                                    <td><a class="btn btn-sm btn-outline-secondary" t-att-href="'/my/helpdesk/%s' % tkt.id">Open</a></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <t t-call="portal.pager"/>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_helpdesk_ticket" name="Ticket Detail">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs" t-value="[('My Account', '/my'), ('Helpdesk', '/my/helpdesk')]"/>
+            <h2 t-esc="ticket.name"/>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Stage:</strong> <span t-esc="ticket.stage"/></p>
+                    <p><strong>Priority:</strong> <span t-esc="ticket.priority"/></p>
+                    <p><strong>SLA Deadline:</strong> <span t-esc="ticket.sla_deadline or '-'"/></p>
+                    <p><strong>Description:</strong></p>
+                    <p t-esc="ticket.description or ''"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_helpdesk_create" name="Create Ticket">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs" t-value="[('My Account', '/my'), ('Helpdesk', '/my/helpdesk'), ('Create', '/my/helpdesk/create')]"/>
+            <h2>Create a Ticket</h2>
+            <t t-if="error">
+                <div class="alert alert-danger" role="alert" t-esc="error"/>
+            </t>
+            <form method="post" action="/my/helpdesk/create" class="o_portal_form">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input class="form-control" type="text" name="name" t-att-value="post and post.get('name') or ''" required="required"/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" name="description" rows="6"><t t-esc="post and post.get('description') or ''"/></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a class="btn btn-secondary" href="/my/helpdesk">Cancel</a>
+            </form>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Mail template for ticket stage update -->
+    <record id="mail_template_ticket_stage_update" model="mail.template">
+        <field name="name">Ticket status updated</field>
+        <field name="model_id" ref="model_helpdesk_ticket"/>
+        <field name="subject">[Helpdesk] ${object.name} is now ${dict(object._fields['stage'].selection).get(object.stage)}</field>
+        <field name="email_from">${(user.email_formatted or '')|safe}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+            <![CDATA[
+            <div>
+                <p>Hello,</p>
+                <p>The ticket <strong>${object.name}</strong> has changed status to <strong>${object.stage}</strong>.</p>
+                <p><strong>Customer:</strong> ${object.partner_id.display_name or '-'}<br/>
+                   <strong>Assignee:</strong> ${object.assignee_id.display_name or '-'}<br/>
+                   <strong>Priority:</strong> ${object.priority or '-'}<br/>
+                   <strong>SLA Deadline:</strong> ${object.sla_deadline or '-'}
+                </p>
+                <p>Description:</p>
+                <p>${object.description or ''}</p>
+                <p>You can view this ticket here: <a href="/my/helpdesk/${object.id}">View Ticket</a></p>
+                <p>--<br/>This is an automated notification.</p>
+            </div>
+            ]]>
+        </field>
+        <field name="partner_to">${','.join([p for p in filter(None, [object.partner_id.id and str(object.partner_id.id), object.assignee_id.partner_id and str(object.assignee_id.partner_id.id)])])}</field>
+    </record>
+</odoo>

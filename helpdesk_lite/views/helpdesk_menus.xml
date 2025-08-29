@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_helpdesk_root" name="Helpdesk Lite" sequence="30"
+              groups="helpdesk_lite.group_helpdesk_user,helpdesk_lite.group_helpdesk_manager"/>
+
+    <!-- Tickets menu -->
+    <menuitem id="menu_helpdesk_tickets" name="Tickets" parent="menu_helpdesk_root" action="action_helpdesk_tickets" sequence="10"
+              groups="helpdesk_lite.group_helpdesk_user,helpdesk_lite.group_helpdesk_manager"/>
+
+    <!-- Reporting menu (opens pivot by default) -->
+    <menuitem id="menu_helpdesk_reporting" name="Reporting" parent="menu_helpdesk_root" action="action_helpdesk_ticket_pivot" sequence="20"
+              groups="helpdesk_lite.group_helpdesk_user,helpdesk_lite.group_helpdesk_manager"/>
+</odoo>

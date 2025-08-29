@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_helpdesk_ticket_tree" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.tree</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <list string="Tickets" create="true" edit="true" delete="false">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="assignee_id"/>
+                <field name="priority" widget="priority"/>
+                <field name="stage"/>
+                <field name="channel"/>
+                <field name="sla_deadline"/>
+                <field name="closed_date"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_helpdesk_ticket_kanban" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.kanban</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage" class="o_kanban_small_column">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_primary_left">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="o_kanban_primary_right">
+                                    <span class="badge badge-secondary" t-att-class="'badge badge-info'">
+                                        <field name="priority"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <div>
+                                    <span class="text-muted">Stage: </span><field name="stage"/>
+                                </div>
+                                <div>
+                                    <span class="text-muted">Customer: </span><field name="partner_id"/>
+                                </div>
+                                <div>
+                                    <span class="text-muted">Assignee: </span><field name="assignee_id"/>
+                                </div>
+                                <div class="mt8 text-muted">
+                                    <field name="description"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_helpdesk_ticket_form" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Ticket" create="true" edit="true" delete="false">
+                <sheet>
+                    <header>
+                        <field name="stage" widget="statusbar" statusbar_visible="new,in_progress,waiting,done"/>
+                        <button type="object" name="action_view_attachments" class="oe_stat_button" icon="fa-paperclip" string="Attachments">
+                            <field name="attachment_count" widget="statinfo"/>
+                        </button>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="assignee_id"/>
+                            <field name="channel"/>
+                        </group>
+                        <group>
+                            <field name="priority" widget="priority"/>
+                            <field name="sla_deadline"/>
+                            <field name="closed_date" readonly="stage != 'done'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" placeholder="Describe the issue..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_helpdesk_ticket_search" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.search</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <search string="Search Tickets">
+                <field name="name"/>
+                <filter string="My Tickets" name="my_tickets" domain="['|', ('assignee_id','=',uid), ('create_uid','=',uid)]"/>
+                <separator/>
+                <filter string="New" name="stage_new" domain="[('stage','=','new')]"/>
+                <filter string="In Progress" name="stage_in_progress" domain="[('stage','=','in_progress')]"/>
+                <filter string="Waiting" name="stage_waiting" domain="[('stage','=','waiting')]"/>
+                <filter string="Done" name="stage_done" domain="[('stage','=','done')]"/>
+                <separator/>
+                <filter string="Low" name="prio_low" domain="[('priority','=','0')]"/>
+                <filter string="Normal" name="prio_norm" domain="[('priority','=','1')]"/>
+                <filter string="High" name="prio_high" domain="[('priority','=','2')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Assignee" context="{'group_by':'assignee_id'}"/>
+                    <filter string="Stage" context="{'group_by':'stage'}"/>
+                    <filter string="Channel" context="{'group_by':'channel'}"/>
+                    <filter string="Customer" context="{'group_by':'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_helpdesk_ticket_pivot" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.pivot</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <pivot string="Ticket Analysis">
+                <field name="stage" type="row"/>
+                <field name="assignee_id" type="col"/>
+                <field name="id" type="measure" string="Tickets"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_helpdesk_ticket_graph" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.graph</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <graph string="Tickets" type="bar">
+                <field name="stage" group="True"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+</odoo>
