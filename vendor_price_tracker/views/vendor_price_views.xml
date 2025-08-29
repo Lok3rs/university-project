@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_vendor_price_tree" model="ir.ui.view">
+        <field name="name">vendor.price.tree</field>
+        <field name="model">vendor.price</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="product_id"/>
+                <field name="partner_id"/>
+                <field name="price"/>
+                <field name="valid_from"/>
+                <field name="valid_to"/>
+                <field name="is_current"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_vendor_price_form" model="ir.ui.view">
+        <field name="name">vendor.price.form</field>
+        <field name="model">vendor.price</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Price">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="partner_id"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="price"/>
+                            <field name="currency_id" readonly="1"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="is_current" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter></chatter>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_vendor_price_search" model="ir.ui.view">
+        <field name="name">vendor.price.search</field>
+        <field name="model">vendor.price</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <filter string="Current" name="current" domain="[('is_current','=',True)]"/>
+                <filter string="Expiring in 30 days" name="expiring_30" domain="[('is_expiring_30','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Product" name="group_product" context="{'group_by':'product_id'}"/>
+                    <filter string="Vendor" name="group_vendor" context="{'group_by':'partner_id'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_vendor_price_graph" model="ir.ui.view">
+        <field name="name">vendor.price.graph</field>
+        <field name="model">vendor.price</field>
+        <field name="arch" type="xml">
+            <graph type="bar" string="Vendor Prices" stacked="0">
+                <field name="price" type="measure"/>
+                <field name="partner_id" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_vendor_price_pivot" model="ir.ui.view">
+        <field name="name">vendor.price.pivot</field>
+        <field name="model">vendor.price</field>
+        <field name="arch" type="xml">
+            <pivot string="Vendor Prices">
+                <field name="price" type="measure"/>
+                <field name="partner_id" type="row"/>
+                <field name="product_id" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_vendor_prices" model="ir.actions.act_window">
+        <field name="name">Vendor Prices</field>
+        <field name="res_model">vendor.price</field>
+        <field name="view_mode">list,form,graph,pivot</field>
+        <field name="context">{'search_default_current': 1}</field>
+        <field name="binding_model_id" ref="model_vendor_price"/>
+    </record>
+
+    <!-- Compare Action -->
+    <record id="action_compare_vendor_prices" model="ir.actions.act_window">
+        <field name="name">Compare Vendor Prices</field>
+        <field name="res_model">vendor.price</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_current': 1, 'group_by':'partner_id'}</field>
+        <field name="binding_model_id" ref="model_vendor_price"/>
+    </record>
+</odoo>

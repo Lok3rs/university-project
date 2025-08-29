@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Security Groups -->
+    <record id="group_vpt_user" model="res.groups">
+        <field name="name">Purchasing User (Vendor Prices)</field>
+        <field name="category_id" ref="base.module_category_purchase_management"/>
+    </record>
+
+    <record id="group_vpt_manager" model="res.groups">
+        <field name="name">Purchasing Manager (Vendor Prices)</field>
+        <field name="implied_ids" eval="[(4, ref('group_vpt_user'))]"/>
+        <field name="category_id" ref="base.module_category_purchase_management"/>
+    </record>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_vpt_post_expired" model="ir.cron">
+        <field name="name">Vendor Prices: Post Expired</field>
+        <field name="model_id" ref="model_vendor_price"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_post_expired_prices()</field>
+        <field name="active" eval="True"/>
+        <field name="interval_number" eval="1"/>
+        <field name="interval_type">days</field>
+        <field name="numbercall" eval="-1"/>
+        <field name="doall" eval="False"/>
+        <field name="nextcall">2025-08-30 06:00:00</field>
+    </record>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Optional automated action to notify when a new best price appears -->
+    <record id="vpt_notify_new_best_price" model="base.automation">
+        <field name="name">Notify Managers on New Best Vendor Price</field>
+        <field name="model_id" ref="model_vendor_price"/>
+        <field name="trigger">on_create_or_write</field>
+        <field name="active" eval="False"/>
+        <field name="state">code</field>
+        <field name="code">\
+for rec in records:\n\
+    rec._notify_new_best_price()\n</field>
+    </record>
+</odoo>

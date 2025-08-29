@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Record Rules for Vendor Prices -->
+    <!-- Users: Read across allowed companies -->
+    <record id="vpt_rule_user_read" model="ir.rule">
+        <field name="name">Vendor Price user read</field>
+        <field name="model_id" ref="model_vendor_price"/>
+        <field name="domain_force">[("company_id","in", user.company_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('vendor_price_tracker.group_vpt_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Users: Create/Write only in current company -->
+    <record id="vpt_rule_user_write_create" model="ir.rule">
+        <field name="name">Vendor Price user write/create in current company</field>
+        <field name="model_id" ref="model_vendor_price"/>
+        <field name="domain_force">[("company_id","=", user.company_id.id)]</field>
+        <field name="groups" eval="[(4, ref('vendor_price_tracker.group_vpt_user'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Managers: Full access across allowed companies -->
+    <record id="vpt_rule_manager_all" model="ir.rule">
+        <field name="name">Vendor Price manager all</field>
+        <field name="model_id" ref="model_vendor_price"/>
+        <field name="domain_force">[("company_id","in", user.company_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('vendor_price_tracker.group_vpt_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+</odoo>

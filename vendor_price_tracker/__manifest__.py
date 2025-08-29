@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'Vendor Price Tracker',
+    'summary': 'Track and compare vendor prices per product with reporting and CSV import',
+    'version': '1.0.0',
+    'license': 'LGPL-3',
+    'author': 'University Project',
+    'category': 'Purchases',
+    'depends': ['base', 'product', 'purchase', 'mail'],
+    'data': [
+        'security/vpt_groups.xml',
+        'security/ir.model.access.csv',
+        'security/vpt_record_rules.xml',
+        'views/vendor_price_views.xml',
+        'views/product_views.xml',
+        'views/menus.xml',
+        'report/vendor_price_report.xml',
+        'report/vendor_price_report_templates.xml',
+        'wizard/vpt_csv_import_views.xml',
+        'data/cron.xml',
+        'data/server_actions.xml',
+    ],
+    'application': True,
+    'installable': True,
+}

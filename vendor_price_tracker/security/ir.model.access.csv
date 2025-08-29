@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vendor_price_user,vendor.price user,model_vendor_price,vendor_price_tracker.group_vpt_user,1,1,1,0
+access_vendor_price_manager,vendor.price manager,model_vendor_price,vendor_price_tracker.group_vpt_manager,1,1,1,1
+access_vpt_csv_import_wizard_user,vpt.csv.import.wizard user,model_vpt_csv_import_wizard,,1,1,1,0
+access_vpt_csv_import_line_user,vpt.csv.import.line user,model_vpt_csv_import_line,,1,0,0,0

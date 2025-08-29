@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_vpt_csv_import_form" model="ir.ui.view">
+        <field name="name">vpt.csv.import.wizard.form</field>
+        <field name="model">vpt.csv.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Vendor Prices" create="false" edit="false">
+                <sheet>
+                    <group invisible="state != 'draft'">
+                        <field name="data_file" filename="filename"/>
+                        <field name="filename" invisible="1"/>
+                    </group>
+                    <group invisible="state != 'preview'">
+                        <field name="line_ids">
+                            <list>
+                                <field name="row_number"/>
+                                <field name="product_default_code"/>
+                                <field name="vendor_name"/>
+                                <field name="price"/>
+                                <field name="valid_from"/>
+                                <field name="valid_to"/>
+                                <field name="status"/>
+                                <field name="message"/>
+                                <field name="action"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group invisible="state != 'done'">
+                        <field name="summary" readonly="1" nolabel="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Preview" name="action_preview" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button string="Import" name="action_import" type="object" class="btn-primary" invisible="state != 'preview'"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vpt_csv_import" model="ir.actions.act_window">
+        <field name="name">Import Vendor Prices (CSV)</field>
+        <field name="res_model">vpt.csv.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu entry for import under Purchasing Tools -->
+    <menuitem id="menu_vpt_import_csv" name="Import Vendor Prices" parent="vendor_price_tracker.menu_vpt_root" action="action_vpt_csv_import"/>
+</odoo>

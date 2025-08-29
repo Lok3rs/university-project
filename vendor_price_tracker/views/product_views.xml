@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Smart button and tab on product form -->
+    <record id="product_form_inherit_vendor_prices" model="ir.ui.view">
+        <field name="name">product.product.form.vendor_prices</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//div[@class='oe_button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="action_open_vendor_prices"
+                        icon="fa-money">
+                    <field string="Vendor Prices" name="vpt_price_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" type="object" name="action_compare_vendor_prices"
+                        icon="fa-bar-chart">
+                    <span class="o_stat_text">Compare Vendor Prices</span>
+                </button>
+            </xpath>
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Vendor Prices">
+                    <field name="vpt_price_ids" nolabel="1" domain="['|', ('is_current','=',True), ('is_expiring_30','=',True)]" context="{'default_product_id': active_id}">
+                        <list create="false" edit="false">
+                            <field name="partner_id"/>
+                            <field name="price"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                            <field name="is_current"/>
+                            <field name="company_id"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="%(vendor_price_tracker.report_vendor_price_snapshot_action)d" type="action" string="Vendor Price Snapshot" class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
