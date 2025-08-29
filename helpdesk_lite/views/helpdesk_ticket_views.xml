@@ -118,10 +118,10 @@
                 <filter string="Normal" name="prio_norm" domain="[('priority','=','1')]"/>
                 <filter string="High" name="prio_high" domain="[('priority','=','2')]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Assignee" context="{'group_by':'assignee_id'}"/>
-                    <filter string="Stage" context="{'group_by':'stage'}"/>
-                    <filter string="Channel" context="{'group_by':'channel'}"/>
-                    <filter string="Customer" context="{'group_by':'partner_id'}"/>
+                    <filter name="group_assignee" string="Assignee" context="{'group_by':'assignee_id'}"/>
+                    <filter name="group_stage" string="Stage" context="{'group_by':'stage'}"/>
+                    <filter name="group_channel" string="Channel" context="{'group_by':'channel'}"/>
+                    <filter name="group_customer" string="Customer" context="{'group_by':'partner_id'}"/>
                 </group>
             </search>
         </field>
@@ -140,15 +140,4 @@
         </field>
     </record>
 
-    <!-- Graph View -->
-    <record id="view_helpdesk_ticket_graph" model="ir.ui.view">
-        <field name="name">helpdesk.ticket.graph</field>
-        <field name="model">helpdesk.ticket</field>
-        <field name="arch" type="xml">
-            <graph string="Tickets" type="bar">
-                <field name="stage" group="True"/>
-                <field name="id" type="measure"/>
-            </graph>
-        </field>
-    </record>
 </odoo>

@@ -7,7 +7,6 @@
         <field name="code">model._cron_check_sla_overdue()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
         <field name="active" eval="True"/>
         <field name="nextcall">2025-08-30 07:00:00</field>
     </record>

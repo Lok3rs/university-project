@@ -57,7 +57,6 @@ class HelpdeskTicket(models.Model):
             if not ticket.name or len(ticket.name.strip()) <= 3:
                 raise ValidationError(_('The ticket title must be longer than 3 characters.'))
 
-    @api.depends('id')
     def _compute_attachment_count(self):
         # Using read_group for batch compute
         counts = {}
