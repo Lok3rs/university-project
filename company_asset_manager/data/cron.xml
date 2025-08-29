@@ -8,7 +8,6 @@
         <field name="code">model._cron_schedule_upcoming_services()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">weeks</field>
-        <field name="numbercall">-1</field>
         <field name="active" eval="True"/>
         <!-- Set next Monday 08:00 as default nextcall; Odoo will keep weekly cadence -->
         <field name="nextcall">2025-09-01 08:00:00</field>

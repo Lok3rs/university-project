@@ -103,7 +103,7 @@
                             <field name="notes" placeholder="Internal notes..."/>
                         </page>
                         <page string="Services">
-                            <field name="service_ids" context="{'default_asset_id': active_id}" mode="list,form">
+                            <field name="service_ids" context="{'default_asset_id': id}" mode="list,form">
                                 <list editable="bottom">
                                     <field name="service_date"/>
                                     <field name="description"/>
