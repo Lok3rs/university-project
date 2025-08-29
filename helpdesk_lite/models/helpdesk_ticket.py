@@ -1,10 +1,19 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, AccessError
+"""Helpdesk Lite models.
+
+Provides a simple helpdesk ticket model with portal support, CSV export, and SLA checks.
+"""
+
 import base64
 import csv
 import io
+import logging
 from datetime import datetime
+
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError, AccessError
+
+_logger = logging.getLogger(__name__)
 
 
 class HelpdeskTicket(models.Model):
@@ -52,12 +61,18 @@ class HelpdeskTicket(models.Model):
     # COMPUTES / CONSTRAINTS / ONCHANGE
     # ---------------------------------------------------------------------
     @api.constrains('name')
-    def _check_name_length(self):
+    def _check_name_length(self) -> None:
+        """Validate that the title is longer than 3 characters.
+
+        Raises:
+            ValidationError: If the title is missing or too short.
+        """
         for ticket in self:
             if not ticket.name or len(ticket.name.strip()) <= 3:
                 raise ValidationError(_('The ticket title must be longer than 3 characters.'))
 
-    def _compute_attachment_count(self):
+    def _compute_attachment_count(self) -> None:
+        """Compute the number of attachments per ticket using read_group."""
         # Using read_group for batch compute
         counts = {}
         if self.ids:
@@ -70,12 +85,24 @@ class HelpdeskTicket(models.Model):
             rec.attachment_count = counts.get(rec.id, 0)
 
     @api.onchange('stage')
-    def _onchange_stage(self):
+    def _onchange_stage(self) -> None:
+        """When stage becomes done, set closed_date if missing."""
         for ticket in self:
             if ticket.stage == 'done' and not ticket.closed_date:
                 ticket.closed_date = fields.Datetime.now()
 
-    def write(self, vals):
+    def write(self, vals) -> bool:
+        """Write changes to tickets and notify on stage change.
+
+        Detect stage changes to send an email notification via template and
+        ensure closed_date is set when moving to Done.
+
+        Args:
+            vals: Values to write.
+
+        Returns:
+            bool: Result from super().write(vals).
+        """
         # Detect stage changes before write
         stage_changed_ids = []
         if 'stage' in vals:
@@ -100,7 +127,8 @@ class HelpdeskTicket(models.Model):
     # ---------------------------------------------------------------------
     # PORTAL MIXIN
     # ---------------------------------------------------------------------
-    def _compute_access_url(self):
+    def _compute_access_url(self) -> None:
+        """Compute the portal access URL for each ticket."""
         super()._compute_access_url()
         for ticket in self:
             ticket.access_url = '/my/helpdesk/%s' % ticket.id

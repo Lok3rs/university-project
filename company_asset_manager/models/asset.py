@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
+"""Company Asset Manager models.
+
+Asset model with services and utilities; includes CSV export and scheduling helpers.
+"""
+
+import base64
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models, _
 from odoo.exceptions import AccessError
-from dateutil.relativedelta import relativedelta
-import base64
 
 
 class CompanyAsset(models.Model):
+    """Company asset with service scheduling and assignment."""
     _name = 'company.asset'
     _description = 'Company Asset'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -46,6 +53,7 @@ class CompanyAsset(models.Model):
 
     @api.depends('service_ids.service_date', 'service_interval_months', 'purchase_date')
     def _compute_next_service_date(self):
+        """Compute next service date based on last service or purchase date and interval."""
         for asset in self:
             interval = asset.service_interval_months or 0
             base_date = None
@@ -63,6 +71,7 @@ class CompanyAsset(models.Model):
 
     @api.depends('service_ids')
     def _compute_service_count(self):
+        """Compute number of related service records for each asset."""
         counts = {}
         if self.ids:
             groups = self.env['company.asset.service'].read_group(
@@ -73,6 +82,7 @@ class CompanyAsset(models.Model):
             asset.service_count = counts.get(asset.id, 0)
 
     def action_view_services(self):
+        """Open services related to the asset with default domain/context."""
         self.ensure_one()
         action = self.env.ref('company_asset_manager.action_company_asset_services').read()[0]
         action['domain'] = [('asset_id', '=', self.id)]
@@ -80,6 +90,7 @@ class CompanyAsset(models.Model):
         return action
 
     def action_view_attachments(self):
+        """Open attachments linked to this asset."""
         self.ensure_one()
         return {
             'name': _('Attachments'),
@@ -92,6 +103,7 @@ class CompanyAsset(models.Model):
         }
 
     def action_assign_wizard(self):
+        """Open assignment wizard prefilled with the current asset."""
         self.ensure_one()
         return {
             'name': _('Assign to Employee'),
@@ -105,9 +117,11 @@ class CompanyAsset(models.Model):
         }
 
     def _get_export_fields_for_csv(self):
+        """Return the fields to include in exported CSV (technical names)."""
         return ['name', 'serial_no', 'category', 'employee_id', 'status', 'next_service_date']
 
     def action_export_csv(self):
+        """Export selected (or all) assets to CSV and return a download URL."""
         # Managers only
         if not self.env.user.has_group('company_asset_manager.group_asset_manager'):
             raise AccessError(_('Only managers can export assets.'))
@@ -124,6 +138,7 @@ class CompanyAsset(models.Model):
                 dict(self._fields['status'].selection).get(rec.status or '', '') or '',
                 rec.next_service_date and fields.Date.to_string(rec.next_service_date) or '',
             ]
+            # Escape quotes per CSV conventions
             lines.append(','.join('"%s"' % (v.replace('"', '""')) for v in vals))
         content = '\n'.join(lines)
         # Create attachment

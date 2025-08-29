@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
+"""Vendor Price Tracker models.
+
+Tracks vendor prices per product with helpers and cron notifications.
+"""
+
+from datetime import timedelta
+
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-from datetime import date, timedelta
 
 
 class VendorPrice(models.Model):
+    """Vendor price per product and vendor with validity dates."""
     _name = 'vendor.price'
     _description = 'Vendor Price'
     _inherit = ['mail.thread', 'mail.activity.mixin']
