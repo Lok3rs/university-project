@@ -8,8 +8,6 @@
         <field name="active" eval="True"/>
         <field name="interval_number" eval="1"/>
         <field name="interval_type">days</field>
-        <field name="numbercall" eval="-1"/>
-        <field name="doall" eval="False"/>
         <field name="nextcall">2025-08-30 06:00:00</field>
     </record>
 </odoo>

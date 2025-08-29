@@ -18,7 +18,7 @@
             </xpath>
             <xpath expr="//sheet/notebook" position="inside">
                 <page string="Vendor Prices">
-                    <field name="vpt_price_ids" nolabel="1" domain="['|', ('is_current','=',True), ('is_expiring_30','=',True)]" context="{'default_product_id': active_id}">
+                    <field name="vpt_price_ids" nolabel="1" domain="['|', ('is_current','=',True), ('is_expiring_30','=',True)]" context="{'default_product_id': id}">
                         <list create="false" edit="false">
                             <field name="partner_id"/>
                             <field name="price"/>
