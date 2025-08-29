@@ -4,7 +4,7 @@
     'summary': 'Track and compare vendor prices per product with reporting and CSV import',
     'version': '1.0.0',
     'license': 'LGPL-3',
-    'author': 'University Project',
+    'author': 'Roksana Piwowarczyk',
     'category': 'Purchases',
     'depends': ['base', 'product', 'purchase', 'mail'],
     'data': [

@@ -5,7 +5,7 @@
     'version': '18.0.1.0.0',
     'category': 'Services/Helpdesk',
     'license': 'LGPL-3',
-    'author': 'Junie (JetBrains)',
+    'author': 'Roksana Piwowarczyk',
     'website': 'https://example.com/helpdesk_lite',
     'depends': ['base', 'mail', 'portal', 'contacts'],
     'data': [
