@@ -65,7 +65,6 @@
         <field name="model">helpdesk.ticket</field>
         <field name="arch" type="xml">
             <form string="Ticket" create="true" edit="true" delete="false">
-                <sheet>
                     <header>
                         <field name="stage" widget="statusbar" statusbar_visible="new,in_progress,waiting,done"/>
                         <button type="object" name="action_view_attachments" class="oe_stat_button" icon="fa-paperclip" string="Attachments">
@@ -90,7 +89,6 @@
                             <field name="description" placeholder="Describe the issue..."/>
                         </page>
                     </notebook>
-                </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
                     <field name="activity_ids" widget="mail_activity"/>
