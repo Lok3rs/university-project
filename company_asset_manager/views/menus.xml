@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_company_assets_root" name="Assets" sequence="10"/>
+
+    <!-- Submenus -->
+    <menuitem id="menu_company_assets" name="Assets" parent="menu_company_assets_root" action="action_company_assets" sequence="10"/>
+    <menuitem id="menu_company_asset_services" name="Services" parent="menu_company_assets_root" action="action_company_asset_services" sequence="20"/>
+    <menuitem id="menu_company_asset_reporting" name="Reporting" parent="menu_company_assets_root" action="action_company_asset_reporting" sequence="30"/>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Managers: full access -->
+    <record id="company_asset_rule_manager_all" model="ir.rule">
+        <field name="name">Asset Manager: all records</field>
+        <field name="model_id" ref="model_company_asset"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('company_asset_manager.group_asset_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Users: read all -->
+    <record id="company_asset_rule_user_read_all" model="ir.rule">
+        <field name="name">Asset User: read all</field>
+        <field name="model_id" ref="model_company_asset"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('company_asset_manager.group_asset_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Users: write only assets assigned to them -->
+    <record id="company_asset_rule_user_write_assigned" model="ir.rule">
+        <field name="name">Asset User: write own assigned</field>
+        <field name="model_id" ref="model_company_asset"/>
+        <field name="domain_force">['|', ('employee_id.user_id','=',user.id), ('create_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('company_asset_manager.group_asset_user'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Employees without groups: can read assets linked to themselves -->
+    <record id="company_asset_rule_employee_self_read" model="ir.rule">
+        <field name="name">Employee: read assigned asset</field>
+        <field name="model_id" ref="model_company_asset"/>
+        <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

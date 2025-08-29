@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Service Tree -->
+    <record id="view_company_asset_service_tree" model="ir.ui.view">
+        <field name="name">company.asset.service.tree</field>
+        <field name="model">company.asset.service</field>
+        <field name="arch" type="xml">
+            <list string="Asset Services" editable="bottom">
+                <field name="asset_id"/>
+                <field name="service_date"/>
+                <field name="description"/>
+                <field name="cost"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Service Form -->
+    <record id="view_company_asset_service_form" model="ir.ui.view">
+        <field name="name">company.asset.service.form</field>
+        <field name="model">company.asset.service</field>
+        <field name="arch" type="xml">
+            <form string="Asset Service">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="asset_id"/>
+                            <field name="service_date"/>
+                        </group>
+                        <group>
+                            <field name="cost"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_company_asset_services" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">company.asset.service</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{"search_default_group_by_asset_id": 0}</field>
+    </record>
+</odoo>

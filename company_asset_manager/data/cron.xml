@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Weekly cron: Monday 08:00 to schedule upcoming services -->
+    <record id="ir_cron_company_asset_upcoming_services" model="ir.cron">
+        <field name="name">Assets: Upcoming Services Reminder</field>
+        <field name="model_id" ref="model_company_asset"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_schedule_upcoming_services()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">weeks</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True"/>
+        <!-- Set next Monday 08:00 as default nextcall; Odoo will keep weekly cadence -->
+        <field name="nextcall">2025-09-01 08:00:00</field>
+    </record>
+</odoo>

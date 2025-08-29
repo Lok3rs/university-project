@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_company_asset_user,access.company.asset.user,model_company_asset,company_asset_manager.group_asset_user,1,1,1,0
+access_company_asset_manager,access.company.asset.manager,model_company_asset,company_asset_manager.group_asset_manager,1,1,1,1
+access_company_asset_service_user,access.company.asset.service.user,model_company_asset_service,company_asset_manager.group_asset_user,1,1,1,0
+access_company_asset_service_manager,access.company.asset.service.manager,model_company_asset_service,company_asset_manager.group_asset_manager,1,1,1,1
+access_company_asset_assign_wizard,access.company.asset.assign.wizard,model_company_asset_assign_wizard,base.group_user,1,1,1,0
+
+access_company_asset_employee_read,access.company.asset.employee.read,model_company_asset,base.group_user,1,0,0,0
