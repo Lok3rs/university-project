@@ -73,6 +73,9 @@
             <form string="Asset">
                 <header>
                     <button name="action_assign_wizard" string="Assign to Employee" type="object" class="oe_highlight"/>
+                    <button name="action_set_in_use" string="Set In Use" type="object" class="btn-primary"/>
+                    <button name="action_set_in_service" string="Set In Service" type="object"/>
+                    <button name="action_set_retired" string="Set Retired" type="object" class="btn-danger"/>
                     <field name="status" widget="statusbar" statusbar_visible="in_use,in_service,retired"/>
                 </header>
                 <sheet>

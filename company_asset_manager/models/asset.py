@@ -158,6 +158,39 @@ class CompanyAsset(models.Model):
             'target': 'self',
         }
 
+    # ---------------------------------------------------------------------
+    # State Transition Actions
+    # ---------------------------------------------------------------------
+    def action_set_in_use(self):
+        for asset in self:
+            previous = asset.status
+            asset.write({'status': 'in_use'})
+            try:
+                asset.message_post(body=_('Status changed to In Use (from %(prev)s).', prev=dict(self._fields['status'].selection).get(previous)))
+            except Exception:
+                pass
+        return True
+
+    def action_set_in_service(self):
+        for asset in self:
+            previous = asset.status
+            asset.write({'status': 'in_service'})
+            try:
+                asset.message_post(body=_('Status changed to In Service (from %(prev)s).', prev=dict(self._fields['status'].selection).get(previous)))
+            except Exception:
+                pass
+        return True
+
+    def action_set_retired(self):
+        for asset in self:
+            previous = asset.status
+            asset.write({'status': 'retired'})
+            try:
+                asset.message_post(body=_('Status changed to Retired (from %(prev)s).', prev=dict(self._fields['status'].selection).get(previous)))
+            except Exception:
+                pass
+        return True
+
 
 class CompanyAssetService(models.Model):
     _name = 'company.asset.service'

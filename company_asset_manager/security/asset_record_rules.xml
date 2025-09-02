@@ -41,6 +41,8 @@
         <field name="name">Employee: read assigned asset</field>
         <field name="model_id" ref="model_company_asset"/>
         <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        <!-- Apply this rule only to generic internal users; managers have their own full-access rule. -->
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="False"/>
         <field name="perm_create" eval="False"/>
