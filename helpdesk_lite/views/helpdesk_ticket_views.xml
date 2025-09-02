@@ -70,6 +70,9 @@
                         <button type="object" name="action_view_attachments" class="oe_stat_button" icon="fa-paperclip" string="Attachments">
                             <field name="attachment_count" widget="statinfo"/>
                         </button>
+                        <button name="action_start_progress" type="object" string="Start Work" class="btn-primary" invisible="stage != 'new'"/>
+                        <button name="action_put_waiting" type="object" string="Put to Waiting" invisible="stage not in ['new', 'in_progress']"/>
+                        <button name="action_mark_done" type="object" string="Mark as Done" class="btn-success" invisible="stage != 'in_progress'"/>
                     </header>
                     <group>
                         <group>
@@ -81,7 +84,7 @@
                         <group>
                             <field name="priority" widget="priority"/>
                             <field name="sla_deadline"/>
-                            <field name="closed_date" readonly="stage != 'done'"/>
+                            <field name="closed_date" readonly="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -89,11 +92,7 @@
                             <field name="description" placeholder="Describe the issue..."/>
                         </page>
                     </notebook>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>

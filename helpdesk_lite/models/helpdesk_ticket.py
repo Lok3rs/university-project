@@ -136,6 +136,39 @@ class HelpdeskTicket(models.Model):
     # ---------------------------------------------------------------------
     # ACTIONS / REPORTING HELPERS
     # ---------------------------------------------------------------------
+    def action_start_progress(self):
+        """Set ticket to In Progress stage.
+
+        - If currently done, also clear closed_date to reopen.
+        - Post a message to the chatter.
+        """
+        for t in self:
+            vals = {'stage': 'in_progress'}
+            if t.stage == 'done' and t.closed_date:
+                vals['closed_date'] = False
+            t.write(vals)
+            t.message_post(body=_('Ticket moved to In Progress.'))
+        return True
+
+    def action_put_waiting(self):
+        """Set ticket to Waiting stage and post a chatter message."""
+        for t in self:
+            # Do not alter closed_date here; only done stage sets it.
+            t.write({'stage': 'waiting'})
+            t.message_post(body=_('Ticket put to Waiting.'))
+        return True
+
+    def action_mark_done(self):
+        """Set ticket to Done stage and set Closed Date to now.
+
+        Even though write/onchange fills it, we ensure it explicitly here for clarity.
+        """
+        now = fields.Datetime.now()
+        for t in self:
+            t.write({'stage': 'done', 'closed_date': now})
+            t.message_post(body=_('Ticket marked as Done at %(dt)s.', dt=now))
+        return True
+
     def action_view_attachments(self):
         self.ensure_one()
         return {
